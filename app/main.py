@@ -53,12 +53,27 @@ SERVICES = {
 
 SUPPORTED_LANGUAGES = os.getenv('SUPPORTED_LANGUAGES', 'en,hi,es,fr,de,pt,zh').split(',')
 
+LANGUAGE_NAMES = {
+    'en': 'English',
+    'hi': 'Hindi',
+    'es': 'Spanish',
+    'fr': 'French',
+    'de': 'German',
+    'pt': 'Portuguese',
+    'zh': 'Chinese'
+}
+
+def get_language_name(lang_code):
+    """Returns the full name of a language from its code."""
+    return LANGUAGE_NAMES.get(lang_code, lang_code.upper())
+
 @main_bp.route('/')
 def index():
     """Render the main page"""
     return render_template('index.html', 
                          services=SERVICES, 
-                         languages=SUPPORTED_LANGUAGES)
+                         languages=SUPPORTED_LANGUAGES,
+                         get_language_name=get_language_name)
 
 @main_bp.route('/api/service', methods=['POST'])
 def handle_service():
